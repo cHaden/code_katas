@@ -11,6 +11,10 @@ class Board
               [" ", " ", " "]]
   end
 
+  def blank?( coord )
+    @board[coord[0]][coord[1]] == " "
+  end
+
   def apply_move( coord, player )
     @board[coord[0]][coord[1]] = player
   end
@@ -41,13 +45,32 @@ end
 
 class Player
 
-  def move( current_board )
-    r = Random.new(1234)
-    y = rand(0..Board::BOARD_HEIGHT-1)
-    puts "y = #{y}"
-    x = rand(0..Board::BOARD_WIDTH-1)
-    puts "x = #{x}"
-    return [x,y]
+  def initialize( board, player_type )
+    @board = board
+    @player_type = player_type # "X" or "O"
+  end
+
+  def random_move( )
+    while true
+      y = rand(0..Board::BOARD_HEIGHT-1)
+      x = rand(0..Board::BOARD_WIDTH-1)
+      if @board.blank?([x,y])
+        return [x,y]
+      end
+    end
+  end
+
+  def opponents_move( coord, opponent_player_type )
+    @board.apply_move(coord,opponent_player_type)
+  end
+
+  def move()
+
+    coord = random_move
+    @board.apply_move(coord, @player_type)
+    @board.display_board
+    puts " "
+    return coord
   end
 end
 
@@ -56,16 +79,9 @@ board.display_board
 
 puts " "
 
-player = Player.new
-board.apply_move( player.move( board ), "X" )
-board.display_board
-
-puts " "
-board.apply_move( player.move( board ), "0" )
-board.display_board
-puts " "
-board.apply_move( player.move( board ), "X" )
-board.display_board
-puts " "
-board.apply_move( player.move( board ), "0" )
-board.display_board
+player_x = Player.new(board, "X")
+player_o = Player.new(board, "O")
+player_x.move
+player_o.move
+player_x.move
+player_o.move
