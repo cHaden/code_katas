@@ -72,6 +72,21 @@ class Board
           end
         end
       end
+      #FIXME -- assuming 3x3 board for now
+      diagonal = [@board[0,0],@board[1,1],@board[2,2]]
+      if diagonal.select {|value| value == player_value }.length == 2
+        if diagonal.index(" ")
+          return [diagonal.index(" "),diagonal.index(" ")]
+        end
+      end
+
+      diagonal = [@board[0,2],@board[1,1],@board[2,0]]
+      if diagonal.select {|value| value == player_value }.length == 2
+        if diagonal.index(" ")
+          return [diagonal.index(" "), 2 - diagonal.index(" ")]
+        end
+      end
+
       return nil
   end
 
@@ -111,6 +126,10 @@ class Player
     elsif coord = @board.player_has_winning_move( @opponent_type )
       @board.apply_move(coord,@player_type)
       puts "Block player #{@player_type}'s opponent"
+    #otherwise, take the best space available
+    # elsif coord = @board.take_best_space( @player_type )
+    #   @board.apply_move(coord, @player_type)
+    #   puts "This is the best space available"
     else
       coord = random_move
       @board.apply_move(coord, @player_type)
