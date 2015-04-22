@@ -23,6 +23,16 @@ class Board
     @board.to_a[coord[0]][coord[1]] == " "
   end
 
+  def full?
+    @board.each do |space|
+      if space == " "
+        return false
+      end
+    end
+
+    return true
+  end
+
   def apply_move( coord, player )
     @board[coord[0],coord[1]] = player
   end
@@ -52,7 +62,7 @@ class Board
   def player_has_winning_move( player_value )
       @board.to_a.length.times do |x|
         if @board.row(x).select {|value| value == player_value }.length == 2
-          if @board.row(x).index(" ")
+          if @board.row(x).to_a.index(" ")
             return [x,@board.row(x).to_a.index(" ")]
           end
         end
@@ -72,6 +82,7 @@ class Player
   def initialize( board, player_type )
     @board = board
     @player_type = player_type # "X" or "O"
+    @winner = false
   end
 
   def random_move( )
@@ -93,6 +104,7 @@ class Player
     if coord = @board.player_has_winning_move( @player_type )
       @board.apply_move(coord, @player_type)
       puts "I think that player #{@player_type} has a winning move"
+      @winner = true
     else
       coord = random_move
       @board.apply_move(coord, @player_type)
@@ -101,6 +113,8 @@ class Player
 
     @board.display_board
     puts " "
+
+    return @winner
   end
 end
 
@@ -111,7 +125,12 @@ puts " "
 
 player_x = Player.new(board, "X")
 player_o = Player.new(board, "O")
-player_x.move
-player_o.move
-player_x.move
-player_o.move
+x_goes = true
+winner = false
+tie = false
+
+until winner || tie
+  winner = x_goes ? player_x.move : player_o.move
+  tie = board.full?
+  x_goes = !x_goes
+end
