@@ -79,9 +79,10 @@ end
 
 class Player
 
-  def initialize( board, player_type )
+  def initialize( board, player_type, opponent_type )
     @board = board
     @player_type = player_type # "X" or "O"
+    @opponent_type = opponent_type # "X" or "O"
     @winner = false
   end
 
@@ -101,10 +102,15 @@ class Player
 
   def move()
 
+    #if there is a winning move, take it
     if coord = @board.player_has_winning_move( @player_type )
       @board.apply_move(coord, @player_type)
       puts "I think that player #{@player_type} has a winning move"
       @winner = true
+    #if your opponent is about to win, block that space
+    elsif coord = @board.player_has_winning_move( @opponent_type )
+      @board.apply_move(coord,@player_type)
+      puts "Block player #{@player_type}'s opponent"
     else
       coord = random_move
       @board.apply_move(coord, @player_type)
@@ -123,8 +129,8 @@ board.display_board
 
 puts " "
 
-player_x = Player.new(board, "X")
-player_o = Player.new(board, "O")
+player_x = Player.new(board, "X", "O")
+player_o = Player.new(board, "O", "X")
 x_goes = true
 winner = false
 tie = false
