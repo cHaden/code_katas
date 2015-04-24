@@ -46,13 +46,11 @@ class Board
     remaining_diagonal_coords_mirror = diagonal_coords_mirror.reject {|x| x == coord}
 
     if remaining_diagonal_coords.length == 2
-      puts "potential diagonal match"
         open_wins += 1 unless @board[remaining_diagonal_coords[0][0],remaining_diagonal_coords[0][1]] == opponent_value ||
           @board[remaining_diagonal_coords[1][0],remaining_diagonal_coords[1][1]] == opponent_value
     end
 
     if remaining_diagonal_coords_mirror.length == 2
-      puts "potential mirror diagonal match"
       open_wins += 1 unless @board[remaining_diagonal_coords_mirror[0][0],remaining_diagonal_coords_mirror[0][1]] == opponent_value ||
         @board[remaining_diagonal_coords_mirror[1][0],remaining_diagonal_coords_mirror[1][1]] == opponent_value
     end
@@ -188,13 +186,34 @@ class Player
   end
 end
 
+class HumanPlayer < Player
+  def move
+    puts "Enter your move (first x value, then y)"
+    x = -1
+    y = -1
+    until x.to_i >= 0 && x.to_i <= 2
+      puts "Enter x (0-1)"
+      x = -1
+      x = gets.chomp
+    end
+    until y.to_i >= 0 && y.to_i <= 2
+      puts "Enter y (0-2)"
+      y = gets.chomp
+    end
+
+    @board.apply_move([x.to_i,y.to_i], @player_type)
+    @board.display_board
+    puts " "
+  end
+end
+
 board = Board.new
 board.display_board
 
 puts " "
 
 player_x = Player.new(board, "X", "O")
-player_o = Player.new(board, "O", "X")
+player_o = HumanPlayer.new(board, "O", "X")
 x_goes = true
 winner = false
 tie = false
