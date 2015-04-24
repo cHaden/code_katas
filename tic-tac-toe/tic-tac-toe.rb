@@ -35,7 +35,7 @@ class Board
 
   def open_wins_at_coord( coord, opponent_value )
     open_wins = 0
-    # puts "#Coord: [#{coord[0]}, #{coord[1]}]"
+    puts "#Coord: [#{coord[0]}, #{coord[1]}]"
     open_wins += 1 unless @board.row(coord[0]).to_a.index( opponent_value )
     open_wins += 1 unless @board.column(coord[1]).to_a.index( opponent_value )
 
@@ -54,17 +54,17 @@ class Board
       open_wins += 1 unless @board[remaining_diagonal_coord_mirror[0][0],remaining_diagonal_coord_mirror[0][1]] == opponent_value ||
         @board[remaining_diagonal_coord_mirror[1][0],remaining_diagonal_coord_mirror[1][1]] == opponent_value
     end
-    # puts "Open wins at #{coord}: #{open_wins}"
+    puts "Open wins at #{coord}: #{open_wins}"
 
     return open_wins
   end
 
   def take_best_space( player_type, opponent_type )
     best_coord = [-1,-1]
-    max_open = 0
+    max_open = -1
 
-    @board.row_count.times do |y|
-      @board.column_count.times do |x|
+    @board.row_count.times do |x|
+      @board.column_count.times do |y|
         temp = @board[x,y] == " " ? open_wins_at_coord( [x,y], opponent_type ) : 0
         if temp > max_open
           max_open = temp
@@ -172,7 +172,7 @@ class Player
     #otherwise, take the best space available
     elsif coord = @board.take_best_space( @player_type, @opponent_type )
       @board.apply_move(coord, @player_type)
-      puts "This is the best space available"
+      puts "#{coord} is the best space available"
     else
       coord = random_move
       @board.apply_move(coord, @player_type)
