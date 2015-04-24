@@ -42,17 +42,19 @@ class Board
     diagonal_coords = [[0,0],[1,1],[2,2]]
     diagonal_coords_mirror = [[0,2],[1,1],[2,0]]
 
-    remaining_diagonal_coord = diagonal_coords.reject {|x| x == coord}
-    remaining_diagonal_coord_mirror = diagonal_coords_mirror.reject {|x| x == coord}
+    remaining_diagonal_coords = diagonal_coords.reject {|x| x == coord}
+    remaining_diagonal_coords_mirror = diagonal_coords_mirror.reject {|x| x == coord}
 
-    if remaining_diagonal_coord.length == 2
-        open_wins += 1 unless @board[remaining_diagonal_coord[0][0],remaining_diagonal_coord[0][1]] == opponent_value ||
-          @board[remaining_diagonal_coord[1][0],remaining_diagonal_coord[1][1]] == opponent_value
+    if remaining_diagonal_coords.length == 2
+      puts "potential diagonal match"
+        open_wins += 1 unless @board[remaining_diagonal_coords[0][0],remaining_diagonal_coords[0][1]] == opponent_value ||
+          @board[remaining_diagonal_coords[1][0],remaining_diagonal_coords[1][1]] == opponent_value
     end
 
-    if remaining_diagonal_coord_mirror == 2
-      open_wins += 1 unless @board[remaining_diagonal_coord_mirror[0][0],remaining_diagonal_coord_mirror[0][1]] == opponent_value ||
-        @board[remaining_diagonal_coord_mirror[1][0],remaining_diagonal_coord_mirror[1][1]] == opponent_value
+    if remaining_diagonal_coords_mirror.length == 2
+      puts "potential mirror diagonal match"
+      open_wins += 1 unless @board[remaining_diagonal_coords_mirror[0][0],remaining_diagonal_coords_mirror[0][1]] == opponent_value ||
+        @board[remaining_diagonal_coords_mirror[1][0],remaining_diagonal_coords_mirror[1][1]] == opponent_value
     end
     puts "Open wins at #{coord}: #{open_wins}"
 
