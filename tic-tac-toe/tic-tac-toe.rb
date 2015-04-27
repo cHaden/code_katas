@@ -212,8 +212,8 @@ board.display_board
 
 puts " "
 
-player_x = Player.new(board, "X", "O")
-player_o = HumanPlayer.new(board, "O", "X")
+player_x = HumanPlayer.new(board, "X", "O")
+player_o = Player.new(board, "O", "X")
 x_goes = true
 winner = false
 tie = false
