@@ -102,30 +102,68 @@ def over_hundred( number, length )
 end 
 
 def number_to_word( number )
-		x = number.to_s.length
-		case x
-		when 1
-			tens( number )
-		when 2
-			tens_place( number )
-		when 3,4,5,6
-			over_hundred( number, x )
+	x = number.to_s.length
+	case x
+	when 1
+		tens( number )
+	when 2
+		tens_place( number )
+	when 3,4,5,6
+		over_hundred( number, x )
+	end
+end
+
+def word_to_number( word )
+	number = []
+
+	puts "Word To Number: #{word}"
+
+	word.split(" ").reverse_each do |digit|
+		case digit
+		when "one"
+			number << 1
+		when "two"
+			number << 2
+		when "three"
+			number << 3
+		when "four"
+			number << 4
+		when "five"
+			number << 5
+		when "six"
+			number << 6
+		when "seven"
+			number << 7
+		when "eight"
+			number << 8
+		when "nine"
+			number << 9
+		when "zero"
+			number << 0
 		end
 	end
-puts tens( 7 )
 
-puts tens( 0 )
-puts teen( 11)
-puts teen(19)
+	puts number
+end
 
-puts number_to_word(4)
-puts number_to_word(20)
-puts number_to_word(49)
-puts number_to_word(14)
+puts number_to_word(1)
 puts number_to_word(11)
-puts number_to_word(100)
-puts number_to_word(204)
-puts number_to_word(739)
-puts number_to_word(1004 )
-puts number_to_word(7119)
-puts number_to_word(35811)
+puts number_to_word(38)
+puts number_to_word(101)
+puts number_to_word(789)
+puts number_to_word(1003)
+puts number_to_word(8943)
+puts number_to_word(10000)
+puts number_to_word(56009)
+puts number_to_word(789011)
+
+word_to_number("one")
+word_to_number("eleven")
+word_to_number("thirty-eight")
+word_to_number("one hundred one")
+word_to_number("seven hundred eighty-nine")
+word_to_number("one thousand three")
+word_to_number("eight thousand nine hundred forty-three")
+word_to_number("ten thousand")
+word_to_number("fifty-six thousand nine")
+word_to_number("seven hundred eighty-nine thousand eleven")
