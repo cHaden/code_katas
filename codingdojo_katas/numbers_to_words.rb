@@ -74,15 +74,25 @@ def tens_place( number )
 	return string
 end
 
-def hundreds_place( number )
-	first = number / 100
-	second = number % 100
+def over_hundred( number, length )
 
-	string = tens(first) + " hundred "
+	if length == 3
+		base = 100
+		term = " hundred "
+	elsif length > 3 && length < 7
+		term = " thousand "
+		base = 1000
+	end
+	#doesn't go >=1000000
+
+	first = number / base
+	second = number % base
+
+	string = number_to_word(first) + term 
 
 	if second != 0
 		if second / 10 != 0
-			string += tens_place( second )
+			string += number_to_word( second )
 		else
 			string += tens( second % 10 )
 		end
@@ -98,8 +108,8 @@ def number_to_word( number )
 			tens( number )
 		when 2
 			tens_place( number )
-		when 3
-			hundreds_place( number )
+		when 3,4,5,6
+			over_hundred( number, x )
 		end
 	end
 puts tens( 7 )
@@ -116,3 +126,6 @@ puts number_to_word(11)
 puts number_to_word(100)
 puts number_to_word(204)
 puts number_to_word(739)
+puts number_to_word(1004 )
+puts number_to_word(7119)
+puts number_to_word(35811)
